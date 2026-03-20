@@ -48,18 +48,20 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+        import { getDatabase, ref, push, onValue } from "https://gastrackersl-default-rtdb.firebaseio.com/";
 
         // 🔥 මෙතනට ඔබේ Firebase අගයන් ඇතුළත් කරන්න (Copy-Paste from Firebase Console)
-        const firebaseConfig = {
-            apiKey: "මෙතනට_ඔබේ_ApiKey",
-            authDomain: "ඔබේ_ID.firebaseapp.com",
-            databaseURL: "https://ඔබේ_ID-default-rtdb.firebaseio.com",
-            projectId: "ඔබේ_ID",
-            storageBucket: "ඔබේ_ID.appspot.com",
-            messagingSenderId: "ID_අංකය",
-            appId: "ID_අංකය"
-        };
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAYCzUxXxQXGah_230WVsi0YNL_0XTduA8",
+  authDomain: "gastrackersl.firebaseapp.com",
+  databaseURL: "https://gastrackersl-default-rtdb.firebaseio.com",
+  projectId: "gastrackersl",
+  storageBucket: "gastrackersl.firebasestorage.app",
+  messagingSenderId: "782392781932",
+  appId: "1:782392781932:web:c96bb2e192cf6c72c33c49",
+  measurementId: "G-YBNWXTNBMR"
+};
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
