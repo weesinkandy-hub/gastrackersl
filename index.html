@@ -7,32 +7,33 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f1f5f9; }
-        .gas-card { transition: all 0.3s ease; }
-        .gas-card:hover { transform: scale(1.02); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .gas-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .gas-card:hover { transform: translateY(-4px); shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <div class="max-w-6xl mx-auto">
         <div class="bg-white p-8 rounded-3xl shadow-sm border-b-4 border-blue-600 mb-10 text-center">
-            <h1 class="text-4xl md:text-5xl font-black text-gray-800 mb-2">
+            <h1 class="text-4xl md:text-5xl font-black text-gray-800 mb-2 italic">
                 <span class="text-blue-600">GAS</span> TRACKER <span class="text-yellow-500">SL</span>
             </h1>
-            <p class="text-gray-500 font-medium">ශ්‍රී ලංකාවේ   සජීවී ගෑස් තොරතුරු පද්ධතිය</p>
+            <p class="text-gray-500 font-medium">ශ්‍රී ලංකාවේ සජීවී ගෑස් තොරතුරු පද්ධතිය (Live Cloud Database)</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 h-fit sticky top-5">
                 <h2 class="text-xl font-bold mb-6 text-blue-800 flex items-center gap-2">
-                    <i class="fas fa-edit"></i> තොරතුරු ඇතුළත් කරන්න
+                    <i class="fas fa-plus-circle"></i> අලුත් තොරතුරක් ඇතුළත් කරන්න
                 </h2>
                 <form id="gasForm" class="space-y-4">
-                    <input type="text" id="district" placeholder="ප්‍රදේශය (උදා: කඩුවෙල)" class="w-full p-4 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50" required>
-                    <input type="text" id="location" placeholder="ස්ථානය (උදා: ලංකා ඉන්ධන හල)" class="w-full p-4 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50" required>
+                    <input type="text" id="district" placeholder="ප්‍රදේශය (උදා: කඩුවෙල)" class="w-full p-4 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 font-medium" required>
+                    <input type="text" id="location" placeholder="ස්ථානය (උදා: ලංකා ඉන්ධන හල)" class="w-full p-4 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 font-medium" required>
                     
                     <div class="grid grid-cols-2 gap-2">
-                        <select id="gasType" class="p-4 border rounded-xl outline-none bg-gray-50 font-bold">
+                        <select id="gasType" class="p-4 border rounded-xl outline-none bg-gray-50 font-bold text-gray-700">
                             <option value="Litro">Litro Gas</option>
                             <option value="Laugfs">Laugfs Gas</option>
                         </select>
@@ -42,8 +43,8 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95">
-                        <i class="fas fa-paper-plane mr-2"></i> තොරතුරු පල කරන්න
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fas fa-paper-plane"></i> දත්ත යොමු කරන්න
                     </button>
                 </form>
             </div>
@@ -51,13 +52,13 @@
             <div class="lg:col-span-2">
                 <div class="relative mb-6">
                     <i class="fas fa-search absolute left-5 top-5 text-gray-400"></i>
-                    <input type="text" id="searchBar" onkeyup="searchLogs()" placeholder="නගරය අනුව සොයන්න..." class="w-full p-5 pl-14 border-none rounded-2xl shadow-md outline-none focus:ring-2 focus:ring-blue-300 text-lg">
+                    <input type="text" id="searchBar" placeholder="නගරය හෝ ස්ථානය අනුව සොයන්න..." class="w-full p-5 pl-14 border-none rounded-2xl shadow-md outline-none focus:ring-2 focus:ring-blue-300 text-lg">
                 </div>
 
                 <div id="gasList" class="space-y-4">
-                    <div class="text-center py-10">
-                        <i class="fas fa-spinner fa-spin text-3xl text-blue-500 mb-2"></i>
-                        <p class="text-gray-500">තොරතුරු පද්ධතියට සම්බන්ධ වෙමින්...</p>
+                    <div class="text-center py-10 bg-white rounded-2xl shadow-sm">
+                        <i class="fas fa-circle-notch fa-spin text-3xl text-blue-500 mb-2"></i>
+                        <p class="text-gray-500">දත්ත පද්ධතිය සමඟ සම්බන්ධ වෙමින්...</p>
                     </div>
                 </div>
             </div>
@@ -66,9 +67,9 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
 
-        // ඔබේ Config දත්ත මෙන්න
+        // ඔබ ලබාදුන් Firebase Config දත්ත
         const firebaseConfig = {
             apiKey: "AIzaSyAYCzUxXxQXGah_230WVsi0YNL_0XTduA8",
             authDomain: "gastrackersl.firebaseapp.com",
@@ -76,14 +77,14 @@
             storageBucket: "gastrackersl.firebasestorage.app",
             messagingSenderId: "782392781932",
             appId: "1:782392781932:web:c96bb2e192cf6c72c33c49",
-            databaseURL: "https://gastrackersl-default-rtdb.firebaseio.com" // ඔබ ලබා දුන් දත්ත අනුව මම මෙය සැකසුවා
+            databaseURL: "https://gastrackersl-default-rtdb.firebaseio.com"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const gasRef = ref(db, 'gas_reports');
 
-        // දත්ත යොමු කිරීම
+        // දත්ත යොමු කිරීම (Save to Firebase)
         document.getElementById('gasForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const data = {
@@ -92,46 +93,74 @@
                 gasType: document.getElementById('gasType').value,
                 queue: document.getElementById('queueStatus').value,
                 time: new Date().toLocaleTimeString('si-LK', { hour: '2-digit', minute: '2-digit' }),
-                date: new Date().toLocaleDateString('si-LK')
+                date: new Date().toLocaleDateString('si-LK'),
+                timestamp: Date.now()
             };
             push(gasRef, data);
             document.getElementById('gasForm').reset();
-            alert("තොරතුරු සාර්ථකව යොමු කළා!");
         });
 
-        // සජීවීව දත්ත ලබා ගැනීම
+        // සජීවීව දත්ත ලබා ගැනීම සහ ප්‍රදර්ශනය (Read from Firebase)
         onValue(gasRef, (snapshot) => {
             const gasList = document.getElementById('gasList');
             gasList.innerHTML = '';
             const data = snapshot.val();
 
             if (data) {
-                Object.values(data).reverse().forEach(item => {
+                // Entries ලබාගෙන අලුත්ම ඒවා උඩට එනසේ සකස් කිරීම
+                const entries = Object.entries(data).reverse();
+                
+                entries.forEach(([key, item]) => {
                     const logo = item.gasType === 'Litro' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Litro_Gas_Lanka_Logo.png/220px-Litro_Gas_Lanka_Logo.png' : 'https://www.laugfs.lk/images/logo.png';
                     const color = item.gasType === 'Litro' ? 'border-blue-500' : 'border-yellow-500';
 
                     gasList.innerHTML += `
-                        <div class="gas-card bg-white p-6 rounded-2xl shadow border-l-8 ${color} flex items-center gap-5">
+                        <div class="gas-card bg-white p-6 rounded-2xl shadow-sm border-l-8 ${color} flex items-center gap-5 relative">
                             <img src="${logo}" class="w-16 h-16 object-contain">
                             <div class="flex-grow">
-                                <div class="flex justify-between items-start">
-                                    <h3 class="text-xl font-bold text-gray-800">${item.district}</h3>
-                                    <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-400 font-mono italic">Verified</span>
-                                </div>
-                                <p class="text-gray-600 font-medium"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> ${item.location}</p>
-                                <div class="flex gap-4 mt-2 text-sm">
+                                <h3 class="text-xl font-bold text-gray-800">${item.district}</h3>
+                                <p class="text-gray-600 font-medium italic"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> ${item.location}</p>
+                                <div class="flex gap-4 mt-3 text-sm">
                                     <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-lg font-bold">වර්ගය: ${item.gasType}</span>
-                                    <span class="${item.queue === 'ඔව්' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'} px-3 py-1 rounded-lg font-bold">පෝලීම: ${item.queue}</span>
+                                    <span class="${item.queue === 'ඔව්' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'} px-3 py-1 rounded-lg font-bold font-mono">පෝලීම: ${item.queue}</span>
                                 </div>
-                                <p class="text-[11px] text-gray-400 mt-3"><i class="far fa-clock"></i> ${item.date} | ${item.time}</p>
+                                <div class="mt-4 flex items-center gap-4 text-[10px] text-gray-400 border-t pt-2">
+                                    <span><i class="far fa-calendar-alt"></i> ${item.date}</span>
+                                    <span><i class="far fa-clock"></i> ${item.time}</span>
+                                </div>
                             </div>
+                            <button onclick="deleteEntry('${key}')" class="absolute top-4 right-4 text-gray-200 hover:text-red-500 transition-colors p-2">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                         </div>
                     `;
                 });
             } else {
-                gasList.innerHTML = '<div class="text-center p-10 bg-white rounded-2xl">තවමත් දත්ත කිසිවක් ලැබී නැත.</div>';
+                gasList.innerHTML = '<div class="text-center p-10 bg-white rounded-2xl shadow-sm text-gray-400 italic">තවමත් දත්ත කිසිවක් ලැබී නැත.</div>';
             }
         });
+
+        // දත්ත මැකීමේ Function එක
+        window.deleteEntry = function(key) {
+            if (confirm("මෙම තොරතුර පද්ධතියෙන් ඉවත් කිරීමට ඔබට සහතිකද?")) {
+                const itemRef = ref(db, 'gas_reports/' + key);
+                remove(itemRef).catch((error) => {
+                    alert("දෝෂයක් සිදුවිය: " + error.message);
+                });
+            }
+        };
+
+        // සෙවුම් පහසුකම (Search)
+        window.searchLogs = function() {
+            const term = document.getElementById('searchBar').value.toLowerCase();
+            const cards = document.querySelectorAll('.gas-card');
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                card.style.display = text.includes(term) ? 'flex' : 'none';
+            });
+        };
+        document.getElementById('searchBar').addEventListener('keyup', searchLogs);
+
     </script>
 </body>
 </html>
