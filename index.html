@@ -3,177 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ගෑස් Tracker SL -  </title>
+    <title>ගෑස් Tracker SL - Live</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', 'Segoe UI', sans-serif; background-color: #f0f7ff; color: #333; }
-        .gas-card { transition: transform 0.2s, box-shadow 0.2s; }
-        .gas-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-        .status-badge { font-weight: 600; font-size: 0.75rem; border-radius: 9999px; }
-        input, select, button { transition: all 0.2s ease-in-out; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f8fafc; }
+        .gas-card { transition: all 0.3s ease; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <div class="max-w-5xl mx-auto">
-        <div class="flex flex-col items-center justify-center text-center mb-12 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
-            <div class="p-3 bg-blue-100 rounded-full mb-4">
-                <i class="fas fa-burn text-4xl text-blue-600"></i>
-            </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">🔥 <span class="text-blue-700">ගෑස් Tracker</span> SL</h1>
-            <p class="text-gray-600 max-w-lg">නවතම තොරතුරු ඇතුළත් කර ඔබේ ප්‍රදේශයේ සහ අන් අයගේ තොරතුරු පහසුවෙන් සොයාගන්න.</p>
+        <div class="text-center mb-10 bg-white p-8 rounded-3xl shadow-sm border border-blue-50">
+            <h1 class="text-4xl font-extrabold text-blue-800 mb-2 underline decoration-yellow-400">🔥 ගෑස් Tracker SL</h1>
+            <p class="text-gray-500">සජීවීව දත්ත යාවත්කාලීන වන පද්ධතිය</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-7 rounded-3xl shadow-xl border border-gray-100 h-fit sticky top-8">
-                <div class="flex items-center gap-3 mb-6 border-b pb-4">
-                    <i class="fas fa-plus-circle text-2xl text-blue-600"></i>
-                    <h2 class="text-2xl font-semibold text-gray-800">තොරතුරු යාවත්කාලීන කරන්න</h2>
-                </div>
-                <form id="gasForm" class="space-y-5">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">ප්‍රදේශය (උදා: කඩුවෙල)</label>
-                        <input type="text" id="district" placeholder="District/City" class="w-full p-4 border rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">ස්ථානය (උදා: සුපිරි වෙළඳසැල)</label>
-                        <input type="text" id="location" placeholder="Specific Location" class="w-full p-4 border rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none" required>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">ගෑස් වර්ගය</label>
-                        <select id="gasType" class="w-full p-4 border rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none bg-white">
-                            <option value="Litro">Litro Gas (ලිට්රෝ)</option>
-                            <option value="Laugfs">Laugfs Gas (ලාෆ්ස්)</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">දිගු පෝලීමක් තිබේද?</label>
-                        <select id="queueStatus" class="w-full p-4 border rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none bg-white">
-                            <option value="නැත">🚫 පෝලීමක් නැත</option>
-                            <option value="ඔව්">🚶‍♂️ දිගු පෝලීමක් ඇත</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-blue-200">
-                        <i class="fas fa-paper-plane mr-2"></i> තොරතුරු යොමු කරන්න
-                    </button>
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 h-fit">
+                <h2 class="text-xl font-bold mb-5 text-gray-700 border-b pb-2">අලුත් තොරතුරක් දමන්න</h2>
+                <form id="gasForm" class="space-y-4">
+                    <input type="text" id="district" placeholder="ප්‍රදේශය" class="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400" required>
+                    <input type="text" id="location" placeholder="ස්ථානය" class="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-400" required>
+                    <select id="gasType" class="w-full p-3 border rounded-xl outline-none bg-white">
+                        <option value="Litro">Litro Gas (ලිට්රෝ)</option>
+                        <option value="Laugfs">Laugfs Gas (ලාෆ්ස්)</option>
+                    </select>
+                    <select id="queueStatus" class="w-full p-3 border rounded-xl outline-none bg-white">
+                        <option value="නැත">පෝලීමක් නැත</option>
+                        <option value="ඔව්">දිගු පෝලීමක් ඇත</option>
+                    </select>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">යොමු කරන්න</button>
                 </form>
             </div>
 
             <div class="md:col-span-2">
-                <div class="relative mb-8">
-                    <i class="fas fa-search absolute left-5 top-5 text-gray-400 text-lg"></i>
-                    <input type="text" id="searchBar" onkeyup="searchLogs()" placeholder="ඔබේ ප්‍රදේශය හෝ ස්ථානය සොයන්න..." class="w-full p-5 pl-14 border rounded-2xl shadow-lg focus:ring-4 focus:ring-blue-100 focus:border-blue-300 outline-none bg-white text-lg">
+                <input type="text" id="searchBar" placeholder="නගරය සර්ච් කරන්න..." class="w-full p-4 border rounded-2xl shadow-sm mb-6 outline-none focus:ring-2 focus:ring-blue-300">
+                <div id="gasList" class="space-y-4 text-center">
+                    <p class="text-gray-400 italic">දත්ත ලබා ගනිමින් පවතී...</p>
                 </div>
-
-                <div class="flex items-center justify-between mb-6 px-2">
-                    <h3 class="text-2xl font-bold text-gray-800"><i class="fas fa-list-ul mr-2 text-blue-500"></i>නවතම දැන්වීම්</h3>
-                    <p class="text-sm text-gray-500" id="logCount"></p>
-                </div>
-
-                <div id="gasList" class="grid grid-cols-1 gap-5">
-                    </div>
             </div>
         </div>
     </div>
 
-    <script>
-        const gasForm = document.getElementById('gasForm');
-        const gasList = document.getElementById('gasList');
-        const searchBar = document.getElementById('searchBar');
-        const logCount = document.getElementById('logCount');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
 
-        document.addEventListener('DOMContentLoaded', displayLogs);
+        // 🔥 මෙතනට ඔබේ Firebase අගයන් ඇතුළත් කරන්න (Copy-Paste from Firebase Console)
+        const firebaseConfig = {
+            apiKey: "මෙතනට_ඔබේ_ApiKey",
+            authDomain: "ඔබේ_ID.firebaseapp.com",
+            databaseURL: "https://ඔබේ_ID-default-rtdb.firebaseio.com",
+            projectId: "ඔබේ_ID",
+            storageBucket: "ඔබේ_ID.appspot.com",
+            messagingSenderId: "ID_අංකය",
+            appId: "ID_අංකය"
+        };
 
-        gasForm.addEventListener('submit', (e) => {
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const gasRef = ref(db, 'gas_data');
+
+        // Submit Data to Firebase
+        document.getElementById('gasForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            
             const info = {
-                id: Date.now(),
                 district: document.getElementById('district').value,
                 location: document.getElementById('location').value,
                 gasType: document.getElementById('gasType').value,
                 queue: document.getElementById('queueStatus').value,
-                status: 'Available', // By default, we assume it's available if reported
-                time: new Date().toLocaleString('si-LK', { hour: '2-digit', minute: '2-digit', hour12: true }),
-                date: new Date().toLocaleDateString('si-LK')
+                time: new Date().toLocaleTimeString(),
+                date: new Date().toLocaleDateString()
             };
-
-            const logs = JSON.parse(localStorage.getItem('gasLogs') || '[]');
-            logs.unshift(info);
-            localStorage.setItem('gasLogs', JSON.stringify(logs));
-            
-            gasForm.reset();
-            displayLogs();
+            push(gasRef, info);
+            document.getElementById('gasForm').reset();
         });
 
-        function displayLogs() {
-            const logs = JSON.parse(localStorage.getItem('gasLogs') || '[]');
-            logCount.innerText = `${logs.length} දැන්වීම් පවතී`;
-            renderCards(logs);
-        }
-
-        function renderCards(logs) {
+        // Real-time Data Loading
+        onValue(gasRef, (snapshot) => {
+            const data = snapshot.val();
+            const gasList = document.getElementById('gasList');
             gasList.innerHTML = '';
-            logs.forEach(log => {
-                const imgUrl = log.gasType === 'Litro' ? 
-                    'https://www.litrogas.com/wp-content/uploads/2023/09/litro-new-logo.png' : 
-                    'https://www.laugfs.lk/images/logo.png';
-                
-                // Set card styling based on brand
-                const brandColor = log.gasType === 'Litro' ? 'border-l-blue-600' : 'border-l-yellow-500';
-                const bgGradient = log.gasType === 'Litro' ? 'from-blue-50 to-white' : 'from-yellow-50 to-white';
+            
+            if (data) {
+                Object.values(data).reverse().forEach(log => {
+                    const brandLogo = log.gasType === 'Litro' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Litro_Gas_Lanka_Logo.png/220px-Litro_Gas_Lanka_Logo.png' : 'https://www.laugfs.lk/images/logo.png';
+                    const brandColor = log.gasType === 'Litro' ? 'border-blue-500' : 'border-yellow-500';
 
-                gasList.innerHTML += `
-                    <div class="gas-card bg-white p-6 rounded-2xl shadow border border-gray-100 border-l-8 ${brandColor} flex items-center gap-6 bg-gradient-to-r ${bgGradient}">
-                        <div class="p-3 bg-white rounded-full shadow-inner border border-gray-100 flex-shrink-0">
-                            <img src="${imgUrl}" alt="${log.gasType}" class="w-20 h-20 object-contain">
-                        </div>
-                        <div class="flex-grow space-y-2">
-                            <div class="flex items-center gap-3">
-                                <h3 class="text-xl font-bold text-gray-900">${log.district}</h3>
-                                <span class="status-badge px-3 py-1 bg-green-100 text-green-700"><i class="fas fa-check-circle mr-1"></i>Available</span>
-                            </div>
-                            <p class="text-base text-gray-700"><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>${log.location}</p>
-                            
-                            <div class="flex items-center gap-5 pt-2 text-sm">
-                                <span class="font-medium text-gray-800">වර්ගය: <span class="${log.gasType === 'Litro' ? 'text-blue-700' : 'text-yellow-600'}">${log.gasType}</span></span>
-                                <span class="font-medium ${log.queue === 'ඔව්' ? 'text-red-600' : 'text-green-600'}">පෝලීම: ${log.queue}</span>
-                            </div>
-                            
-                            <div class="text-xs text-gray-500 flex items-center gap-4 pt-1 border-t">
-                                <span><i class="far fa-calendar-alt mr-1"></i> ${log.date}</span>
-                                <span><i class="far fa-clock mr-1"></i> ${log.time}</span>
+                    gasList.innerHTML += `
+                        <div class="gas-card bg-white p-5 rounded-2xl shadow-sm border-l-8 ${brandColor} flex items-center gap-4 text-left">
+                            <img src="${brandLogo}" class="w-14 h-14 object-contain">
+                            <div class="flex-grow">
+                                <h3 class="font-bold text-lg">${log.district} - ${log.location}</h3>
+                                <p class="text-sm">වර්ගය: <b>${log.gasType}</b> | පෝලීම: <span class="${log.queue === 'ඔව්' ? 'text-red-600' : 'text-green-600'} font-bold">${log.queue}</span></p>
+                                <span class="text-xs text-gray-400">${log.date} | ${log.time}</span>
                             </div>
                         </div>
-                        <button onclick="deleteLog(${log.id})" class="text-gray-300 hover:text-red-500 transition-colors p-2"><i class="fas fa-trash"></i></button>
-                    </div>
-                `;
-            });
-        }
-
-        function searchLogs() {
-            const term = searchBar.value.toLowerCase();
-            const logs = JSON.parse(localStorage.getItem('gasLogs') || '[]');
-            const filtered = logs.filter(log => 
-                log.district.toLowerCase().includes(term) || 
-                log.location.toLowerCase().includes(term)
-            );
-            renderCards(filtered);
-        }
-
-        function deleteLog(id) {
-            if(confirm("මෙම දැන්වීම ඉවත් කිරීමට අවශ්‍යද?")) {
-                let logs = JSON.parse(localStorage.getItem('gasLogs') || '[]');
-                logs = logs.filter(log => log.id !== id);
-                localStorage.setItem('gasLogs', JSON.stringify(logs));
-                displayLogs();
+                    `;
+                });
+            } else {
+                gasList.innerHTML = '<p class="text-gray-400">තවමත් දත්ත කිසිවක් නැත.</p>';
             }
-        }
+        });
     </script>
 </body>
 </html>
