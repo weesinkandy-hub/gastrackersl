@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Tracker SL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .gas-card { transition: transform 0.2s; }
+        .gas-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-blue-700 mb-2">🔥 ගෑස් තිබෙන ප්‍රදේශ දැන්වීම් පුවරුව</h1>
+            <p class="text-gray-600">නවතම තොරතුරු ඇතුළත් කර අන් අයට උදව් කරන්න.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+            <h2 class="text-xl font-semibold mb-4 border-b pb-2 text-gray-700">තොරතුරු ඇතුළත් කරන්න</h2>
+            <form id="gasForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="district" placeholder="ප්‍රදේශය (උදා: කඩුවෙල)" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                <input type="text" id="location" placeholder="ස්ථානය (උදා: සුපිරි වෙළඳසැල)" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                
+                <select id="gasType" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="Litro">Litro Gas (ලිට්රෝ)</option>
+                    <option value="Laugfs">Laugfs Gas (ලාෆ්ස්)</option>
+                </select>
+
+                <select id="queueStatus" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="නැත">පෝලීමක් නැත</option>
+                    <option value="ඔව්">දිගු පෝලීමක් ඇත</option>
+                </select>
+
+                <button type="submit" class="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition">තොරතුරු යොමු කරන්න</button>
+            </form>
+        </div>
+
+        <div class="relative mb-6">
+            <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>
+            <input type="text" id="searchBar" onkeyup="searchLogs()" placeholder="ඔබේ ප්‍රදේශය සොයන්න (Search location...)" class="w-full p-4 pl-12 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-300 outline-none">
+        </div>
+
+        <div id="gasList" class="grid grid-cols-1 gap-4">
+            </div>
+    </div>
+
+    <script>
+        const gasForm = document.getElementById('gasForm');
+        const gasList = document.getElementById('gasList');
+        const searchBar = document.getElementById('searchBar');
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', displayLogs);
+
+        gasForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const info = {
+                id: Date.now(),
+                district: document.getElementById('district').value,
+                location: document.getElementById('location').value,
+                gasType: document.getElementById('gasType').value,
+                queue: document.getElementById('queueStatus').value,
+                time: new Date().toLocaleString()
+            };
+
+            const logs = JSON.parse(localStorage.getItem('gasLogs') || '[]');
+            logs.unshift(info);
+            localStorage.setItem('gasLogs', JSON.stringify(logs));
+            
+            gasForm.reset();
+            displayLogs();
+        });
+
+        function displayLogs() {
+            const logs = JSON.parse(localStorage.getItem('gasLogs') || '[]');
+            renderCards(logs);
+        }
+
+        function renderCards(logs) {
+            gasList.innerHTML = '';
+            logs.forEach(log => {
+                const imgUrl = log.gasType === 'Litro' ? 
+                    'https://techpac.lk/static/06bb52da683f5ba2139f6bb2e1c67970/8cb4c/litro.png' : 
+                    'https://mir-s3-cdn-cf.behance.net/projects/404/a4132717407607.Y3JvcCw4NzQsNjg0LDY0LDM4.png';
+
+                gasList.innerHTML += `
+                    <div class="gas-card bg-white p-5 rounded-xl shadow-md border-l-8 ${log.gasType === 'Litro' ? 'border-blue-500' : 'border-yellow-500'} flex items-center gap-4">
+                        <img src="${imgUrl}" alt="${log.gasType}" class="w-16 h-16 object-contain">
+                        <div class="flex-grow">
+                            <h3 class="text-lg font-bold text-gray-800">${log.district} - ${log.location}</h3>
+                            <p class="text-sm text-gray-600">වර්ගය: <b>${log.gasType}</b> | පෝලීම: <span class="${log.queue === 'ඔව්' ? 'text-red-600' : 'text-green-600'} font-bold">${log.queue}</span></p>
+                            <span class="text-xs text-gray-400"><i class="far fa-clock"></i> ${log.time}</span>
+                        </div>
+                        <button onclick="deleteLog(${log.id})" class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+            });
+        }
+
+        function searchLogs() {
+            const term = searchBar.value.toLowerCase();
+            const logs = JSON.parse(localStorage.getItem('gasLogs') || '[]');
+            const filtered = logs.filter(log => 
+                log.district.toLowerCase().includes(term) || 
+                log.location.toLowerCase().includes(term)
+            );
+            renderCards(filtered);
+        }
+
+        function deleteLog(id) {
+            let logs = JSON.parse(localStorage.getItem('gasLogs') || '[]');
+            logs = logs.filter(log => log.id !== id);
+            localStorage.setItem('gasLogs', JSON.stringify(logs));
+            displayLogs();
+        }
+    </script>
+</body>
+</html>
