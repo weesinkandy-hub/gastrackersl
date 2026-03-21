@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Tracker SL - Usage Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card { border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .result-box { display: none; background: #e9ecef; padding: 15px; border-radius: 10px; margin-top: 20px; }
+        .progress { height: 25px; border-radius: 12.5px; }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="card p-4">
+        <h3 class="text-center text-primary mb-4">Gas Usage Calculator</h3>
+        
+        <div class="mb-3">
+            <label class="form-label">සිලින්ඩරයේ බර (kg):</label>
+            <select id="weight" class="form-select">
+                <option value="12.5">12.5 kg (LITRO/LAUGFS)</option>
+                <option value="5">5 kg</option>
+                <option value="2.3">2.3 kg</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">පවුලේ සාමාජික සංඛ්‍යාව:</label>
+            <input type="number" id="members" class="form-control" placeholder="උදා: 4" min="1">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">මිලදී ගත් දිනය:</label>
+            <input type="date" id="buyDate" class="form-control">
+        </div>
+
+        <button onclick="calculateUsage()" class="btn btn-primary w-100">ගණනය කරන්න</button>
+
+        <div id="resultArea" class="result-box text-center">
+            <h5>ඇස්තමේන්තුගත තොරතුරු</h5>
+            <p id="daysLeft" class="fw-bold text-danger"></p>
+            <div class="progress mb-2">
+                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%"></div>
+            </div>
+            <p id="endDate" class="text-muted small"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateUsage() {
+        const weight = parseFloat(document.getElementById('weight').value);
+        const members = parseInt(document.getElementById('members').value);
+        const buyDate = new Date(document.getElementById('buyDate').value);
+        const today = new Date();
+
+        if (!members || isNaN(buyDate)) {
+            alert("කරුණාකර සියලුම විස්තර නිවැරදිව ඇතුළත් කරන්න.");
+            return;
+        }
+
+        // සාමාන්‍යයෙන් පුද්ගලයෙකු දිනකට භාවිතා කරන ගෑස් ප්‍රමාණය (0.12kg)
+        const dailyConsumption = members * 0.12;
+        const totalDays = Math.floor(weight / dailyConsumption);
+        
+        // ගතවූ දින ගණන
+        const diffTime = Math.abs(today - buyDate);
+        const daysUsed = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        const remainingDays = totalDays - daysUsed;
+        const usagePercent = Math.max(0, Math.min(100, ((totalDays - daysUsed) / totalDays) * 100));
+
+        // UI Update කිරීම
+        document.getElementById('resultArea').style.display = 'block';
+        document.getElementById('daysLeft').innerText = remainingDays > 0 
+            ? `තව දින ${remainingDays}ක් පමණ ඉතිරිව ඇත.` 
+            : "ගෑස් අවසන් වී ඇති බව පෙනේ!";
+        
+        document.getElementById('progressBar').style.width = usagePercent + "%";
+        
+        const estEndDate = new Date(buyDate);
+        estEndDate.setDate(estEndDate.getDate() + totalDays);
+        document.getElementById('endDate').innerText = "අවසන් වීමට නියමිත දිනය: " + estEndDate.toDateString();
+    }
+</script>
+
+</body>
+</html>
